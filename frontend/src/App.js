@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 import AddVehicle from "./pages/AddVehicle";
 import VehicleDetails from "./pages/VehicleDetails";
+import MyVehicles from "./pages/MyVehicles";
+
 
 function Navbar() {
   return (
@@ -11,7 +13,7 @@ function Navbar() {
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/add-vehicle">Add Vehicle</Link></li>
-        <li><a href="#">My Vehicles</a></li>
+        <li><a href="/my-vehicle">My Vehicles</a></li>
         <li><a href="#">Login</a></li>
       </ul>
     </nav>
@@ -67,6 +69,7 @@ function App() {
         <Route path="/" element={<Home vehicles={vehicles} />} />
         <Route path="/add-vehicle" element={<AddVehicle fetchVehicles={fetchVehicles} />} />
         <Route path="/vehicle/:id" element={<VehicleDetails />} />
+        <Route path="/my-vehicle" element={<MyVehicles vehicles={vehicles} />} />
       </Routes>
     </Router>
   );
