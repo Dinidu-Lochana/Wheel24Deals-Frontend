@@ -1,16 +1,49 @@
 import { useEffect, useState } from "react";
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import "./App.css";
+import AddVehicle from "./pages/AddVehicle";
 
 function Navbar() {
   return (
     <nav className="navbar">
       <h2>Wheels24Deals</h2>
       <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Add Vehicle</a></li>
+        <li><Link to="/">Home</Link></li>
+        <li><Link to="/add-vehicle">Add Vehicle</Link></li>
+        <li><a href="#">My Vehicles</a></li>
         <li><a href="#">Login</a></li>
       </ul>
     </nav>
+  );
+}
+
+function Home({ vehicles, formData, handleChange, handleSubmit }) {
+  return (
+    <div className="container">
+      <h1>Vehicle Listings</h1>
+
+      
+
+      {/* Vehicle List */}
+      <div className="vehicle-list">
+        {vehicles.length === 0 ? (
+          <p>No vehicles available.</p>
+        ) : (
+          vehicles.map((vehicle) => (
+            <div key={vehicle.id} className="vehicle-card">
+              <h3>{vehicle.vehicleName}</h3>
+              <p><strong>Brand:</strong> {vehicle.brand}</p>
+              <p><strong>Type:</strong> {vehicle.type}</p>
+              <p><strong>No Plate:</strong> {vehicle.noPlate}</p>
+              <p><strong>Year:</strong> {vehicle.manufactureYear} / {vehicle.registeredYear}</p>
+              <p><strong>Mileage:</strong> {vehicle.mileage} km</p>
+              <p><strong>Price:</strong> ${vehicle.price}</p>
+              <p><strong>Description:</strong> {vehicle.description}</p>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -63,60 +96,23 @@ function App() {
   };
 
   return (
-    <div className="container">
+    <Router>
       <Navbar />
-
-      <h1>Vehicle Listings</h1>
-
-      {/* Vehicle Form */}
-      <form onSubmit={handleSubmit} className="vehicle-form">
-        <input
-          type="text"
-          name="vehicleName"
-          placeholder="Vehicle name"
-          value={formData.vehicleName}
-          onChange={handleChange}
-          required
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Home
+              vehicles={vehicles}
+              formData={formData}
+              handleChange={handleChange}
+              handleSubmit={handleSubmit}
+            />
+          }
         />
-        <input
-          type="number"
-          name="price"
-          placeholder="Price"
-          value={formData.price}
-          onChange={handleChange}
-          required
-        />
-        <input
-          type="text"
-          name="mileage"
-          placeholder="Mileage"
-          value={formData.mileage}
-          onChange={handleChange}
-          required
-        />
-        <button type="submit">Add Vehicle</button>
-      </form>
-
-      {/* Vehicle List */}
-      <div className="vehicle-list">
-        {vehicles.length === 0 ? (
-          <p>No vehicles available.</p>
-        ) : (
-          vehicles.map((vehicle) => (
-            <div key={vehicle.id} className="vehicle-card">
-              <h3>{vehicle.vehicleName}</h3>
-              <p><strong>Brand:</strong> {vehicle.brand}</p>
-              <p><strong>Type:</strong> {vehicle.type}</p>
-              <p><strong>No Plate:</strong> {vehicle.noPlate}</p>
-              <p><strong>Year:</strong> {vehicle.manufactureYear} / {vehicle.registeredYear}</p>
-              <p><strong>Mileage:</strong> {vehicle.mileage} km</p>
-              <p><strong>Price:</strong> ${vehicle.price}</p>
-              <p><strong>Description:</strong> {vehicle.description}</p>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
+        <Route path="/add-vehicle" element={<AddVehicle />} />
+      </Routes>
+    </Router>
   );
 }
 
