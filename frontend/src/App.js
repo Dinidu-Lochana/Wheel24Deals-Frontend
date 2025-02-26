@@ -1,17 +1,39 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
 import "./App.css";
 import AddVehicle from "./pages/AddVehicle";
+import Signup from "./pages/Signup";
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+
 
 function Navbar() {
+  const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem("access_token");
+
+  const handleLogout = () => {
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    navigate("/login");
+  };
+
   return (
     <nav className="navbar">
       <h2>Wheels24Deals</h2>
       <ul>
         <li><Link to="/">Home</Link></li>
         <li><Link to="/add-vehicle">Add Vehicle</Link></li>
-        <li><a href="#">My Vehicles</a></li>
-        <li><a href="#">Login</a></li>
+        {isAuthenticated ? (
+          <>
+            <li><Link to="/dashboard">Dashboard</Link></li>
+            <li><button onClick={handleLogout}>Logout</button></li>
+          </>
+        ) : (
+          <>
+            <li><Link to="/signup">Signup</Link></li>
+            <li><Link to="/login">Login</Link></li>
+          </>
+        )}
       </ul>
     </nav>
   );
@@ -21,8 +43,6 @@ function Home({ vehicles, formData, handleChange, handleSubmit }) {
   return (
     <div className="container">
       <h1>Vehicle Listings</h1>
-
-      
 
       {/* Vehicle List */}
       <div className="vehicle-list">
@@ -111,9 +131,17 @@ function App() {
           }
         />
         <Route path="/add-vehicle" element={<AddVehicle />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
       </Routes>
     </Router>
   );
 }
+
+// Protected Route for Dashboard
+const PrivateRoute = ({ children }) => {
+  return localStorage.getItem("access_token") ? children : <Navigate to="/login" />;
+};
 
 export default App;
