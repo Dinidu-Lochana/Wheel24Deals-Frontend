@@ -91,7 +91,7 @@ function AddVehicle() {
           image4: null,
           image5: null,
         });
-        navigate("/");
+        navigate("/my-vehicle");
       } else {
         alert("Failed to add vehicle.");
       }

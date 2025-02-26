@@ -1,8 +1,29 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "../CSS/MyVehicles.css";
 
-function MyVehicles({ vehicles, fetchVehicles }) {
+function MyVehicles() {
+  const [vehicles, setVehicles] = useState([]);
+
+  // Fetch vehicles from backend
+  const fetchVehicles = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/vehicles/");
+      if (response.ok) {
+        const data = await response.json();
+        setVehicles(data);
+      } else {
+        console.error("Failed to fetch vehicles");
+      }
+    } catch (error) {
+      console.error("Error fetching vehicles:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchVehicles();
+  }, []);
+
   const handleDelete = async (id) => {
     try {
       const response = await fetch(`http://127.0.0.1:8000/api/deletevehicle/${id}/`, {
@@ -11,7 +32,8 @@ function MyVehicles({ vehicles, fetchVehicles }) {
 
       if (response.ok) {
         alert("Vehicle deleted successfully!");
-        fetchVehicles(); // Refresh vehicle list
+        // Update state by filtering out deleted vehicle
+        setVehicles((prevVehicles) => prevVehicles.filter((vehicle) => vehicle.id !== id));
       } else {
         alert("Failed to delete vehicle.");
       }
@@ -34,7 +56,7 @@ function MyVehicles({ vehicles, fetchVehicles }) {
                   <img
                     src={vehicle.image1}
                     alt={vehicle.vehicleName}
-                    style={{ width: "200px", height: "150px", objectFit: "cover", borderRadius: "10px" }}
+                    className="vehicle-image"
                   />
                 )}
                 <h3>{vehicle.vehicleName}</h3>
@@ -42,6 +64,12 @@ function MyVehicles({ vehicles, fetchVehicles }) {
                 <p><strong>Type:</strong> {vehicle.type}</p>
                 <p><strong>Price:</strong> ${vehicle.price}</p>
               </Link>
+              <button 
+                className="update-button" 
+                onClick={() => window.location.href = `/my-vehicle/${vehicle.id}`}
+              >
+                Update
+              </button>
               <button className="delete-button" onClick={() => handleDelete(vehicle.id)}>Delete</button>
             </div>
           ))
