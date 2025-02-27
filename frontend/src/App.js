@@ -11,7 +11,7 @@ function Navbar() {
     <nav className="navbar">
       <h2>Wheels24Deals</h2>
       <ul>
-      <li>
+        <li>
           <Link to="/" onClick={() => window.location.reload()}>
             Home
           </Link>
@@ -24,18 +24,70 @@ function Navbar() {
   );
 }
 
+function SearchBar({ setSearchQuery, setSearchType, handleSearch }) {
+  const [query, setQuery] = useState("");
+  const [type, setType] = useState("");
+
+  return (
+    <div className="search-bar">
+      <input 
+        type="text" 
+        placeholder="Search by vehicle name..." 
+        value={query}
+        onChange={(e) => setQuery(e.target.value.toLowerCase())}
+      />
+      <input 
+        type="text" 
+        placeholder="Search by vehicle type..." 
+        value={type}
+        onChange={(e) => setType(e.target.value.toLowerCase())}
+      />
+      <button onClick={() => { 
+        setSearchQuery(query); 
+        setSearchType(type); 
+        handleSearch(); 
+      }}>
+        Search
+      </button>
+    </div>
+  );
+}
+
 function Home({ vehicles }) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchType, setSearchType] = useState("");
+  const [filteredVehicles, setFilteredVehicles] = useState(vehicles);
+
+  const handleSearch = () => {
+    setFilteredVehicles(
+      vehicles.filter(vehicle =>
+        vehicle.vehicleName.toLowerCase().includes(searchQuery) &&
+        vehicle.type.toLowerCase().includes(searchType)
+      )
+    );
+  };
+
+  useEffect(() => {
+    setFilteredVehicles(vehicles);
+  }, [vehicles]);
+
   return (
     <div className="container">
+      <SearchBar 
+        setSearchQuery={setSearchQuery} 
+        setSearchType={setSearchType} 
+        handleSearch={handleSearch} 
+      />
       <h1>Vehicle Listings</h1>
       <div className="vehicle-list">
-        {vehicles.length === 0 ? (
-          <p>No vehicles available.</p>
+        {filteredVehicles.length === 0 ? (
+          <p>No vehicles found.</p>
         ) : (
-          vehicles.map((vehicle) => (
+          filteredVehicles.map((vehicle) => (
             <Link key={vehicle.id} to={`/vehicle/${vehicle.id}`} className="vehicle-card">
               {vehicle.image1 && (
-                <img src={vehicle.image1} alt={vehicle.vehicleName} style={{ width: "200px", height: "150px", objectFit: "cover", borderRadius: "10px" }} />
+                <img src={vehicle.image1} alt={vehicle.vehicleName} 
+                  style={{ width: "200px", height: "150px", objectFit: "cover", borderRadius: "10px" }} />
               )}
               <h3>{vehicle.vehicleName}</h3>
               <p><strong>Brand:</strong> {vehicle.brand}</p>
