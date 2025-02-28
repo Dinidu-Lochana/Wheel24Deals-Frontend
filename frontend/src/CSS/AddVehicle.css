@@ -1,71 +1,172 @@
-/* Add this CSS to your stylesheet or a <style> tag */
-
+/* Container Styling */
 .add-vehicle-container {
-    max-width: 600px;
+    max-width: 650px;
     margin: 50px auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  .add-vehicle-container h2 {
+    padding: 25px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease-in-out;
+}
+
+/* Title */
+.add-vehicle-container h2 {
     text-align: center;
     color: #333;
-    font-size: 28px;
+    font-size: 30px;
     margin-bottom: 20px;
-  }
-  
-  .add-vehicle-form {
+    font-weight: 600;
+    letter-spacing: 1px;
+}
+
+/* Form Layout */
+.add-vehicle-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-  }
-  
-  .add-vehicle-form input,
-  .add-vehicle-form textarea {
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+    gap: 18px;
+}
+
+/* Input Fields */
+.add-vehicle-form input,
+.add-vehicle-form textarea {
+    padding: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
     font-size: 16px;
     outline: none;
-    transition: border-color 0.3s ease;
-  }
-  
-  .add-vehicle-form input:focus,
-  .add-vehicle-form textarea:focus {
+    transition: all 0.3s ease-in-out;
+    background-color: #fafafa;
+}
+
+.add-vehicle-form input:focus,
+.add-vehicle-form textarea:focus {
     border-color: #007bff;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
-  }
-  
-  .add-vehicle-form textarea {
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.4);
+}
+
+/* Textarea */
+.add-vehicle-form textarea {
     resize: vertical;
-    min-height: 100px;
-  }
-  
-  .add-vehicle-form button {
-    padding: 12px;
+    min-height: 120px;
+    font-family: Arial, sans-serif;
+}
+
+/* Submit Button */
+.add-vehicle-form button {
+    padding: 14px;
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  .add-vehicle-form button:hover {
+    transition: all 0.3s ease-in-out;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.add-vehicle-form button:hover {
     background-color: #0056b3;
-  }
-  
-  .add-vehicle-form button:disabled {
+    transform: scale(1.05);
+}
+
+.add-vehicle-form button:disabled {
     background-color: #cccccc;
     cursor: not-allowed;
-  }
-  
-  .error-message {
+    transform: scale(1);
+}
+
+/* Error Message */
+.error-message {
     color: #dc3545;
-    font-size: 14px;
+    font-size: 15px;
     text-align: center;
     margin-bottom: 15px;
-  }
+    font-weight: 500;
+}
+
+/* Image Upload Styling */
+.image-upload-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.image-upload-container input {
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+}
+
+/* Image Previews */
+.image-preview-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+    justify-content: center;
+}
+
+.image-preview {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 10px;
+    border: 2px solid #ddd;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+.image-preview:hover {
+    border-color: #007bff;
+    transform: scale(1.05);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .add-vehicle-container {
+        max-width: 90%;
+        padding: 20px;
+    }
+
+    .add-vehicle-form input,
+    .add-vehicle-form textarea {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    .add-vehicle-form button {
+        font-size: 16px;
+        padding: 12px;
+    }
+
+    .image-preview {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .add-vehicle-container h2 {
+        font-size: 24px;
+    }
+
+    .add-vehicle-form input,
+    .add-vehicle-form textarea {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .add-vehicle-form button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .image-preview {
+        width: 90px;
+        height: 90px;
+    }
+}
